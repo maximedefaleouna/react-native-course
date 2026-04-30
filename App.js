@@ -7,15 +7,17 @@ import {
   ScrollView,
   Button,
   Pressable,
-  Modal,
   StatusBar,
-  ActivityIndicator,
-  Alert,
+  Modal,
 } from "react-native";
 const image = require("./assets/adaptive-icon.png");
+import Modal1 from "./component/Modal";
+import StyleSheets from "./component/Style";
 
 export default function App() {
-  const [isModalVisible, setIsmodalVisible] = useState(false);
+  const [isModal1Visible, setIsmodal1Visible] = useState(false);
+  const [isModal2Visible, setIsmodal2Visible] = useState(false);
+
   return (
     <View
       style={{ backgroundColor: "plum", flex: 1, padding: 60, paddingRight: 2 }}
@@ -60,7 +62,7 @@ export default function App() {
           onPressIn={() => console.log("Texte cliqué onPressIn")}
           onPress={() => {
             console.log("Texte cliqué onPress");
-            setIsmodalVisible(true);
+            setIsmodal1Visible(true);
           }}
           onPressOut={() => console.log("Texte cliqué onPressOut")}
           onLongPress={() => console.log("Texte cliqué onLongPress")}
@@ -77,67 +79,35 @@ export default function App() {
             <Text>custom open modal</Text>
           </View>
         </Pressable>
-      </ScrollView>
 
-      <Modal
-        visible={isModalVisible}
-        onRequestClose={() => setIsmodalVisible(false)}
-        animationType="slide"
-        presentationStyle="pageSheet"
-      >
-        <View
-          style={{
-            backgroundColor: "lightblue",
-            flex: 1,
-            padding: 60,
-            paddingRight: 2,
+        <Pressable
+          onPress={() => {
+            setIsmodal2Visible(true);
           }}
         >
-          <ActivityIndicator size={"large"} color={"red"} animating={!true} />
-          <Text>Modal content</Text>
           <View
             style={{
-              paddingRight: 200,
-              paddingTop: 50,
-              display: "flex",
-              flexDirection: "row",
-              gap: 25,
+              padding: 10,
+              margin: 5,
+              backgroundColor: "#fff",
+              width: 150,
+              borderRadius: 15,
             }}
           >
-            <View>
-              <Button
-                title="alert"
-                onPress={() =>
-                  Alert.alert("invalid action", "fonctionnement de alert", [
-                    {
-                      text: "cancel",
-                      onPress: () => console.log("cancel alert dialogue"),
-                    },
-                    {
-                      text: "OK",
-                      onPress: () => console.log("ok to alert dialogue msg"),
-                    },
-                    // {
-                    //   text: "OKK",
-                    //   onPress: () => console.log("okk to alert dialogue msg"),
-                    // },
-                    // {
-                    //   text: "OKKK",
-                    //   onPress: () => console.log("okkk to alert dialogue msg"),
-                    // },
-                  ])
-                }
-              />
-            </View>
-            <View>
-              <Button
-                title="close"
-                color={"midnightblue"}
-                onPress={() => setIsmodalVisible(false)}
-              />
-            </View>
+            <Text>styles modal</Text>
           </View>
-        </View>
+        </Pressable>
+      </ScrollView>
+
+      <Modal1
+        isModal1Visible={isModal1Visible}
+        setIsmodal1Visible={setIsmodal1Visible}
+      />
+      <Modal
+        visible={isModal2Visible}
+        onRequestClose={() => setIsmodal2Visible(false)}
+      >
+        <StyleSheets isModal2Visible={setIsmodal2Visible} />
       </Modal>
     </View>
   );
