@@ -2,24 +2,41 @@ import { View, Text, StyleSheet, Modal, Button } from "react-native";
 import FlexBox from "./FlexBox";
 import { useState } from "react";
 
-export default function StyleSheets() {
-  const [isflexModalvisible, setIsFlexmodalVisible] = useState(false);
+export default function StyleSheets({ onClose }) {
+  const [isFlexModalVisible, setIsFlexModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
-      <Text style={[styles.taille, styles.couleure]}>style sheet</Text>
+      <Text style={styles.title}>Styles et Ombres React Native</Text>
+      
       <View style={styles.box}>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Box</Text>
+        <Text style={styles.boxText}>Boite Standard avec Bordure Pointillee</Text>
       </View>
+
       <View style={[styles.box, styles.boxShadow, styles.androidShadow]}>
-        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Shadow</Text>
+        <Text style={styles.boxText}>Boite avec Ombre (iOS & Android)</Text>
       </View>
-      <Button title="flexbox" onPress={() => setIsFlexmodalVisible(true)} />
+
+      <View style={styles.buttonWrapper}>
+        <Button
+          title="Ouvrir Demonstration Flexbox"
+          color="#2e7d32"
+          onPress={() => setIsFlexModalVisible(true)}
+        />
+      </View>
+
+      {onClose && (
+        <View style={styles.buttonWrapper}>
+          <Button title="Fermer" color="midnightblue" onPress={onClose} />
+        </View>
+      )}
+
       <Modal
-        visible={isflexModalvisible}
-        onRequestClose={() => setIsFlexmodalVisible(false)}
+        visible={isFlexModalVisible}
+        onRequestClose={() => setIsFlexModalVisible(false)}
         animationType="slide"
       >
-        <FlexBox />
+        <FlexBox onClose={() => setIsFlexModalVisible(false)} />
       </Modal>
     </View>
   );
@@ -28,39 +45,49 @@ export default function StyleSheets() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "plum",
-    paddingHorizontal: 15,
-    paddingVertical: 15,
+    backgroundColor: "#f5f5f5",
+    padding: 20,
+    justifyContent: "center",
   },
-  taille: {
-    fontSize: 20,
-    margin: 10,
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+    color: "#222222",
   },
-  couleure: {
-    color: "red",
+  boxText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#333333",
+    textAlign: "center",
   },
   box: {
     width: "100%",
     height: 100,
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     borderWidth: 2,
-    borderColor: "blue",
+    borderColor: "#1976d2",
     borderStyle: "dashed",
-    borderRadius: 15,
-    paddingHorizontal: "40%",
-    paddingVertical: "10%",
-    marginVertical: 15,
+    borderRadius: 14,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 15,
+    marginVertical: 12,
   },
   boxShadow: {
-    shadowColor: "#333333",
+    shadowColor: "#000000",
     shadowOffset: {
-      width: 60,
-      height: 60,
+      width: 0,
+      height: 4,
     },
-    shadowOpacity: 0.6,
-    shadowRadius: 4,
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
   },
   androidShadow: {
-    elevation: 10,
+    elevation: 8,
+  },
+  buttonWrapper: {
+    marginVertical: 8,
   },
 });

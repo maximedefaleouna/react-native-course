@@ -5,71 +5,88 @@ import {
   Button,
   Text,
   Modal,
+  StyleSheet,
 } from "react-native";
 import Greet from "./Greet";
 
-export default function Modal1({ isModal1Visible, setIsmodal1Visible }) {
+export default function CustomModal({ isVisible, onClose }) {
   return (
     <Modal
-      visible={isModal1Visible}
-      onRequestClose={() => setIsmodal1Visible(false)}
+      visible={isVisible}
+      onRequestClose={onClose}
       animationType="slide"
       presentationStyle="pageSheet"
     >
-      <View
-        style={{
-          backgroundColor: "lightblue",
-          flex: 1,
-          padding: 60,
-          paddingRight: 2,
-        }}
-      >
-        <ActivityIndicator size={"large"} color={"red"} animating={!true} />
+      <View style={styles.modalContainer}>
+        <ActivityIndicator size="large" color="#0066cc" animating={true} />
         <Greet name="Maxime" />
-        <Text>Modal content</Text>
-        <View
-          style={{
-            paddingRight: 200,
-            paddingTop: 50,
-            display: "flex",
-            flexDirection: "row",
-            gap: 25,
-          }}
-        >
-          <View>
-            <Button
-              title="alert"
-              onPress={() =>
-                Alert.alert("invalid action", "fonctionnement de alert", [
+        <Text style={styles.modalTitle}>Demonstration de Modal React Native</Text>
+        <Text style={styles.modalDescription}>
+          Ce composant illustre les fenetres modales natives, la gestion des indicateurs d'activite et les dialogues d'alerte.
+        </Text>
+
+        <View style={styles.buttonGroup}>
+          <Button
+            title="Declencher Alerte"
+            color="#0066cc"
+            onPress={() =>
+              Alert.alert(
+                "Alerte Systeme",
+                "Ceci est une boite de dialogue native declenchee via Alert.alert().",
+                [
                   {
-                    text: "cancel",
-                    onPress: () => console.log("cancel alert dialogue"),
+                    text: "Annuler",
+                    style: "cancel",
+                    onPress: () => console.log("Action annulee"),
                   },
                   {
-                    text: "OK",
-                    onPress: () => console.log("ok to alert dialogue msg"),
+                    text: "Confirmer",
+                    onPress: () => console.log("Action confirmee"),
                   },
-                  // {
-                  //   text: "OKK",
-                  //   onPress: () => console.log("okk to alert dialogue msg"),
-                  // },
-                  // {
-                  //   text: "OKKK",
-                  //   onPress: () => console.log("okkk to alert dialogue msg"),
-                  // },
-                ])
-              }
-            />
-          </View>
-          <View>
-            <Button
-              title="close"
-              color={"midnightblue"}
-              onPress={() => setIsmodal1Visible(false)}
-            />
-          </View>
+                ]
+              )
+            }
+          />
+          <View style={styles.spacer} />
+          <Button
+            title="Fermer la Modal"
+            color="midnightblue"
+            onPress={onClose}
+          />
         </View>
       </View>
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    backgroundColor: "#e6f2ff",
+    flex: 1,
+    padding: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginVertical: 12,
+    color: "#003366",
+  },
+  modalDescription: {
+    fontSize: 14,
+    color: "#333333",
+    textAlign: "center",
+    marginBottom: 24,
+    lineHeight: 20,
+  },
+  buttonGroup: {
+    flexDirection: "column",
+    gap: 12,
+    width: "100%",
+    maxWidth: 240,
+  },
+  spacer: {
+    height: 8,
+  },
+});
